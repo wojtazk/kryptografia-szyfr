@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Szyfr DUPA</title>
+  </head>
+  <body>
+    <div id="content">
+      <label for="input">Tekst źródłowy</label>
+      <br />
+      <textarea id="input" name="input" rows="10" cols="50"></textarea>
+      <br />
+      <input type="button" value="Zaszyfruj" id="btn-encrypt" />
+      <input type="button" value="Odszyfruj" id="btn-decrypt" />
+
+      <br />
+      <input type="button" value="Zamień pola" id="btn-swap" />
+
+      <br />
+      <br />
+
+      <label for="output">Zaszyfrowany / odszyfrowany tekst</label>
+      <br />
+      <textarea id="output" name="output" rows="10" cols="50"></textarea>
+    </div>
+
+    <!-- jakies stylowanko -->
+    <style>
+      #content {
+        width: fit-content;
+        margin: auto;
+      }
+    </style>
+
+    <!--  szyfrowanie tekstu  -->
+    <script>
+      'use strict';
+
+      // button click listeners
+      document.getElementById('btn-encrypt').addEventListener('click', () => {
+        const inputText = document.getElementById('input').value;
+        const outputTextareaElement = document.getElementById('output');
+        outputTextareaElement.value = ''; // clear the output texarea
+
+        outputTextareaElement.value = szyfrowanko(inputText);
+      });
+
+      document.getElementById('btn-decrypt').addEventListener('click', () => {
+        const inputText = document.getElementById('input').value;
+        const outputTextareaElement = document.getElementById('output');
+        outputTextareaElement.value = ''; // clear the output texarea
+
+        outputTextareaElement.value = deszyfrowanko(inputText);
+      });
+      document.getElementById('btn-decrypt').addEventListener('click', () => {
+        const inputText = document.getElementById('input').value;
+        const outputTextareaElement = document.getElementById('output');
+        outputTextareaElement.value = ''; // clear the output texarea
+
+        outputTextareaElement.value = deszyfrowanko(inputText);
+      });
+
+      document.getElementById('btn-swap').addEventListener('click', () => {
+        const inputTextareaElement = document.getElementById('input');
+        const outputTextareaElement = document.getElementById('output');
+
+        const tmp = inputTextareaElement.value;
+        inputTextareaElement.value = outputTextareaElement.value;
+        outputTextareaElement.value = tmp;
+      });
+
+      // alphabet and dictionaries
+      const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+
+      const dictionaries = [
+        alphabet,
+
+        // Armenian
+        'ԱաԲբԳգԴդԵեԶզԷէԸըԹթԺժԻիԼլԽխԾծԿկՀհՁձՂղՃճՄմՅյՆնՇշՈոՉչՊպՋջՌռՍսՎվՏտՐրՑցՒւՓփՔքՕօՖֆ',
+
+        // Glagolitic
+        'ⱐⰰⰱⱌⰴⰵⱇⰳⱒⰻⰼⰽⰾⰿ ⱀⱁⱂqⱃⱄⱅⱆⰲwⱈⰹⰸⰀⰁⰜⰄⰅⰗⰃⰢⰋⰌⰍⰎⰏⰐⰑⰒQⰓⰔⰕⰖⰂWⰘⰉ',
+
+        // Russian
+        'АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпС сТтУуФфХхЦцЧчШшЩщ',
+      ];
+
+      // encryption and decryption functions
+      function szyfrowanko(
+        plainText,
+        startingDictionary = 0,
+        startingShift = 1
+      ) {
+        let encryptedText = '';
+
+        console.log('plan text:');
+        console.log(plainText);
+
+        let currentDictionaryIndex = startingDictionary;
+        let currentShift = startingShift;
+        for (let i = 0; i < plainText.length; i++) {
+          // get index of current character
+          const currentCharPosition = alphabet.indexOf(plainText[i]);
+
+          // if there is no match just dont encrypt the character
+          if (currentCharPosition === -1) {
+            encryptedText += plainText[i];
+            continue;
+          }
+
+          let shiftedCharPosition = currentCharPosition + currentShift;
+
+          if (shiftedCharPosition >= alphabet.length) {
+            shiftedCharPosition %= alphabet.length;
+          }
+
+          // add new character to encrypted text
+          encryptedText +=
+            dictionaries[currentDictionaryIndex][shiftedCharPosition];
+
+          // increment current shift
+          currentShift++;
+          if (currentShift >= alphabet.length) {
+            currentShift %= alphabet.length;
+          }
+          // move to the next dictionary
+          currentDictionaryIndex++;
+          if (currentDictionaryIndex >= dictionaries.length) {
+            currentDictionaryIndex %= dictionaries.length;
+          }
+        }
+
+        return encryptedText;
+      }
+
+      function deszyfrowanko(
+        encryptedText,
+        startingDictionary = 0,
+        startingShift = 1
+      ) {
+        let decryptedText = '';
+
+        console.log('encrypted text:');
+        console.log(encryptedText);
+
+        let currentDictionaryIndex = startingDictionary;
+        let currentShift = startingShift;
+        for (let i = 0; i < encryptedText.length; i++) {
+          // get index of current character
+          const currentCharPosition = dictionaries[
+            currentDictionaryIndex
+          ].indexOf(encryptedText[i]);
+
+          // if there is no match just dont decrypt the character
+          if (currentCharPosition === -1) {
+            decryptedText += encryptedText[i];
+            continue;
+          }
+
+          let shiftedCharPosition = currentCharPosition - currentShift;
+
+          if (shiftedCharPosition < 0) {
+            shiftedCharPosition += alphabet.length;
+          }
+
+          // add character to decrypted text
+          decryptedText += alphabet[shiftedCharPosition];
+
+          // increment current shift
+          currentShift++;
+          if (currentShift >= alphabet.length) {
+            currentShift %= alphabet.length;
+          }
+          // move to the next dictionary
+          currentDictionaryIndex++;
+          if (currentDictionaryIndex >= dictionaries.length) {
+            currentDictionaryIndex %= dictionaries.length;
+          }
+        }
+
+        return decryptedText;
+      }
+    </script>
+  </body>
+</html>
