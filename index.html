@@ -36,6 +36,8 @@
       <label for="output">Zaszyfrowany / odszyfrowany tekst</label>
       <br />
       <textarea id="output" name="output" rows="10" cols="50"></textarea>
+      <br />
+      <input type="button" value="Skopiuj tekst" id="btn-copy" />
     </div>
 
     <!-- jakies stylowanko -->
@@ -104,6 +106,13 @@
         .addEventListener('click', () => {
           outputTextarea.value = '';
         });
+
+      document.getElementById('btn-copy').addEventListener('click', () => {
+        outputTextarea.select();
+        outputTextarea.setSelectionRange(0, 99999); // mobile devices
+
+        navigator.clipboard.writeText(outputTextarea.value);
+      });
 
       ///////////////////////////////////////
       // encryption and decryption functions
