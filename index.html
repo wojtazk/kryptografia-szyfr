@@ -53,13 +53,6 @@
 
         outputTextareaElement.value = deszyfrowanko(inputText);
       });
-      document.getElementById('btn-decrypt').addEventListener('click', () => {
-        const inputText = document.getElementById('input').value;
-        const outputTextareaElement = document.getElementById('output');
-        outputTextareaElement.value = ''; // clear the output texarea
-
-        outputTextareaElement.value = deszyfrowanko(inputText);
-      });
 
       document.getElementById('btn-swap').addEventListener('click', () => {
         const inputTextareaElement = document.getElementById('input');
