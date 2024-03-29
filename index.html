@@ -37,30 +37,23 @@
     <script>
       'use strict';
 
+      // get input and output texarea elements
+      const inputTextarea = document.getElementById('input');
+      const outputTextarea = document.getElementById('output');
+
       // button click listeners
       document.getElementById('btn-encrypt').addEventListener('click', () => {
-        const inputText = document.getElementById('input').value;
-        const outputTextareaElement = document.getElementById('output');
-        outputTextareaElement.value = ''; // clear the output texarea
-
-        outputTextareaElement.value = szyfrowanko(inputText);
+        outputTextarea.value = szyfrowanko(inputTextarea.value);
       });
 
       document.getElementById('btn-decrypt').addEventListener('click', () => {
-        const inputText = document.getElementById('input').value;
-        const outputTextareaElement = document.getElementById('output');
-        outputTextareaElement.value = ''; // clear the output texarea
-
-        outputTextareaElement.value = deszyfrowanko(inputText);
+        outputTextarea.value = deszyfrowanko(inputTextarea.value);
       });
 
       document.getElementById('btn-swap').addEventListener('click', () => {
-        const inputTextareaElement = document.getElementById('input');
-        const outputTextareaElement = document.getElementById('output');
-
-        const tmp = inputTextareaElement.value;
-        inputTextareaElement.value = outputTextareaElement.value;
-        outputTextareaElement.value = tmp;
+        const tmp = inputTextarea.value;
+        inputTextarea.value = outputTextarea.value;
+        outputTextarea.value = tmp;
       });
 
       // alphabet and dictionaries
@@ -87,8 +80,7 @@
       ) {
         let encryptedText = '';
 
-        console.log('plain text:');
-        console.log(plainText);
+        console.log('ENCRYPTING🔥🔥🔥');
 
         let currentDictionaryIndex = startingDictionary;
         let currentShift = startingShift;
@@ -134,8 +126,7 @@
       ) {
         let decryptedText = '';
 
-        console.log('encrypted text:');
-        console.log(encryptedText);
+        console.log('DECRYPTING💧💧💧');
 
         let currentDictionaryIndex = startingDictionary;
         let currentShift = startingShift;
