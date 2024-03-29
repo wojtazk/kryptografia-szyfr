@@ -13,9 +13,22 @@
       <br />
       <input type="button" value="Zaszyfruj" id="btn-encrypt" />
       <input type="button" value="Odszyfruj" id="btn-decrypt" />
-
       <br />
-      <input type="button" value="Zamień pola" id="btn-swap" />
+      <br />
+
+      <input type="button" value="Zamień pola 🔃" id="btn-swap" />
+      <br />
+      <input
+        type="button"
+        value="Wyczyść tekst źródłowy ⬆️"
+        id="btn-clear-input"
+      />
+      <br />
+      <input
+        type="button"
+        value="Wyczyść tekst wynikowy ⬇️"
+        id="btn-clear-output"
+      />
 
       <br />
       <br />
@@ -37,25 +50,7 @@
     <script>
       'use strict';
 
-      // get input and output texarea elements
-      const inputTextarea = document.getElementById('input');
-      const outputTextarea = document.getElementById('output');
-
-      // button click listeners
-      document.getElementById('btn-encrypt').addEventListener('click', () => {
-        outputTextarea.value = szyfrowanko(inputTextarea.value);
-      });
-
-      document.getElementById('btn-decrypt').addEventListener('click', () => {
-        outputTextarea.value = deszyfrowanko(inputTextarea.value);
-      });
-
-      document.getElementById('btn-swap').addEventListener('click', () => {
-        const tmp = inputTextarea.value;
-        inputTextarea.value = outputTextarea.value;
-        outputTextarea.value = tmp;
-      });
-
+      ////////////////////////////
       // alphabet and dictionaries
       const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
 
@@ -72,6 +67,40 @@
         'АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпС сТтУуФфХхЦцЧчШшЩщ',
       ];
 
+      ////////////////////////////////////////
+      // get input and output texarea elements
+      const inputTextarea = document.getElementById('input');
+      const outputTextarea = document.getElementById('output');
+
+      /////////////////////////
+      // button click listeners
+      document.getElementById('btn-encrypt').addEventListener('click', () => {
+        outputTextarea.value = szyfrowanko(inputTextarea.value);
+      });
+
+      document.getElementById('btn-decrypt').addEventListener('click', () => {
+        outputTextarea.value = deszyfrowanko(inputTextarea.value);
+      });
+
+      document.getElementById('btn-swap').addEventListener('click', () => {
+        const tmp = inputTextarea.value;
+        inputTextarea.value = outputTextarea.value;
+        outputTextarea.value = tmp;
+      });
+
+      document
+        .getElementById('btn-clear-input')
+        .addEventListener('click', () => {
+          inputTextarea.value = '';
+        });
+
+      document
+        .getElementById('btn-clear-output')
+        .addEventListener('click', () => {
+          outputTextarea.value = '';
+        });
+
+      ///////////////////////////////////////
       // encryption and decryption functions
       function szyfrowanko(
         plainText,
